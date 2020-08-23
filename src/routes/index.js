@@ -1,8 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 
-const conexion = require('../server/basedatos');
-
+const empleadosController = require('../controller/empleadosController')
 
 // localhost:3000/api/
 router.get('/',(req, res) => {
@@ -12,23 +11,9 @@ router.get('/',(req, res) => {
 })
 
 // localhost:3000/api/empleados
-router.get('/empleados',(req, res) => {
-    const query = 'SELECT * from empleados e left join sectores s on e.sector_id = s.id';
-
-    conexion.query(query, function(err,resultado){
-        if (err) {
-            console.log('Ocurrio un error al consultar en la BD',err)
-            res.status(500).json({
-                mensaje: 'Ocurrio un error en la base de datos'
-            });
-            return;
-        }
-
-        res.json(resultado);
-    })
-})
-
-// api/empleado/:id
-// 
+router.get('/empleados',empleadosController.obtenerEmpleados);
+router.get('/empleado/:id',empleadosController.obtenerEmpleado);
+router.get('/empleados/sector/:id',empleadosController.obtenerEmpleadosSector);
+router.put('/empleado/:id',empleadosController.actualizarEmpleado);
 
 module.exports = router;
