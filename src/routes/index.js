@@ -13,9 +13,7 @@ router.get('/',(req, res) => {
 
 // localhost:3000/api/empleados
 router.get('/empleados',(req, res) => {
-    console.log('Ruta empleados ejecutada');
-
-    const query = 'SELECT * from empleados';
+    const query = 'SELECT * from empleados e left join sectores s on e.sector_id = s.id';
 
     conexion.query(query, function(err,resultado){
         if (err) {
@@ -29,5 +27,8 @@ router.get('/empleados',(req, res) => {
         res.json(resultado);
     })
 })
+
+// api/empleado/:id
+// 
 
 module.exports = router;
